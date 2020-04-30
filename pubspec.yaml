@@ -1,0 +1,4 @@
+name: building_game
+dependencies:  
+  objd:
+  objd_gui:
