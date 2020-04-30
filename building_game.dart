@@ -7,7 +7,7 @@ void main(List<String> args) {
   createProject(
     Project(
       name: 'theBuildingGame',
-      target: '../',
+      target: './target/',
       generate: BuildingGamePack(),
     ),
     args,
