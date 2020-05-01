@@ -12,12 +12,8 @@ class RoundTimer extends Widget {
       children: [
         If(Condition.score(ScoreMgr.roundTimer.get() > 0), then: [ScoreMgr.roundTimer.get().subtract(1)])],
       ticks: 20
-    );    
+    );
   }
-  // @override
-  // List<File> registerFiles() {
-  //   return null;
-  // }
 }
 
 class AssignLanes extends Widget {
@@ -160,6 +156,7 @@ class GameStateRename extends Widget {
     return For.of([
       AssignLanes(this.gameround),
       HideObjectives(),
+      Title.resetTimes(Entity.All()),
       Execute(
         children: [ForEach(ScoreMgr.gameStatePlayers.get(),
         translate: tp,
@@ -197,6 +194,7 @@ class GameStateObjective extends Widget {
         z: Global_Offsets.laneMove.z);
     return For.of([
       AssignLanes(gameround),
+      Title.resetTimes(Entity.All()),
       ScoreMgr.roundTimer.getScore().set(60*5),
       VisibleScore(ScoreMgr.roundTimer),
       Execute(
@@ -206,7 +204,6 @@ class GameStateObjective extends Widget {
           return Entity(tags: ["player"]).forEach((Entity e, List<Widget> l) {
             return If(Condition(Score(e, "curr_lane").isBiggerOrEqual(idx)),
                 then: [
-                  Log("TPING"),
                   GameStateEnterPlayer(e, Location.here(), objective: this.objective, faceNorth: true)
                 ]);
           });
