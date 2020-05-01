@@ -44,11 +44,11 @@ class InitScoreboard extends Widget {
     if(this.display != null) {
       content = List<Widget>();
       content.add(Scoreboard.remove(this.swrapper.name));
-      content.add(Scoreboard(this.swrapper.name, addIntoLoad: true, display: this.display));
+      content.add(Scoreboard(this.swrapper.name, addIntoLoad: false, display: this.display));
     }
     return For.of([
       // Scoreboard(this.swrapper.name, addIntoLoad: true, display: this.display),
-      // For.of(content),
+      For.of(content),
       this.swrapper.getScore().set(0)
     ]);
   }
