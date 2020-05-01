@@ -83,7 +83,7 @@ class GenerateRenameStations extends Widget {
       z: Globals.plotStart.z + startOffset.z,
     );
     final laneOffset = Global_Offsets.laneMove;
-    return File("renamestations${rndID}",
+    return File("internal/renamestations_${rndID}",
       execute: true,
       child: For(from: 0, to: Globals.maxPlayers-1,
         create: (idx) {
@@ -116,7 +116,7 @@ class GenerateObjectives extends Widget {
       z: Globals.plotStart.z + startOffset.z,
     );
     final laneOffset = Global_Offsets.laneMove;
-    return File("objectives${rndID}",
+    return File("internal/objectives_${rndID}",
       execute: true,
       child: For(from: 0, to: Globals.maxPlayers-1,
         create: (idx) {
@@ -157,6 +157,7 @@ class GameStateRename extends Widget {
       AssignLanes(this.gameround),
       HideObjectives(),
       Title.resetTimes(Entity.All()),
+      VisibleScore(ScoreMgr.players),
       Execute(
         children: [ForEach(ScoreMgr.gameStatePlayers.get(),
         translate: tp,
@@ -196,7 +197,7 @@ class GameStateObjective extends Widget {
       AssignLanes(gameround),
       Title.resetTimes(Entity.All()),
       ScoreMgr.roundTimer.getScore().set(60*5),
-      VisibleScore(ScoreMgr.roundTimer),
+      VisibleScore(gameround < 80 ? ScoreMgr.roundTimer : null),
       Execute(
         children: [ForEach(ScoreMgr.gameStatePlayers.get(),
         translate: tp,
