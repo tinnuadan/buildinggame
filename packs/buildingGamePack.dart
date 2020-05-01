@@ -1,11 +1,9 @@
 import 'package:objd/core.dart';
 // import all the files:
-import 'package:objd_gui/gui.dart';
 import '../files/load.dart';
 import '../files/main.dart';
 import '../files/game.dart';
 import '../files/gamechecker.dart';
-import '../files/lobby.dart';
 import '../files/scoreboards.dart';
 import '../files/globals.dart';
 
