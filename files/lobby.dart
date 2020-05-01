@@ -1,29 +1,8 @@
 import 'package:objd/core.dart';
-import '../files/scoreboards.dart';
-import 'game_player.dart';
-import 'globals.dart';
+import 'scoreboards.dart';
 import 'gamechecker.dart';
 import 'utils.dart';
 
-class CountPlayers extends Widget {
-  @override
-  generate(Context context) {
-
-    final gameround = 0;
-
-    String allPlayers = Entity(type: Entities.player).toString();
-    String readyPlayers = Entity(type: Entities.player, tags: [GetRoundReadyTag(gameround)]).toString();
-
-    Score sc_readyPlayers = ScoreMgr.players.get();
-    Score sc_allPlayers = ScoreMgr.playerAll.get();
-
-    return If(ScoreMgr.gameState.get().matches(gameround),
-    then: [
-      sc_readyPlayers.setToResult(Command("execute if entity ${readyPlayers}")),
-      sc_allPlayers.setToResult(Command("execute if entity ${allPlayers}")),
-    ]);
-  }
-}
 
 class StartGame extends Widget {
   
@@ -31,7 +10,6 @@ class StartGame extends Widget {
   generate(Context context) {
     Score scPlayers = ScoreMgr.gameStatePlayers.get();
     Score scTmp = ScoreMgr.tmp.get();
-    final allPlayers = Entity(type: Entities.player).toString();
     final notProcessed = Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)]).toString();
     return For.of([
       If(Condition.and([
@@ -39,7 +17,6 @@ class StartGame extends Widget {
       ]),
       then: [
         Say("Starting game"),
-        // scPlayers.setToResult(Command("execute if entity ${allPlayers}")),
         scPlayers.set(0),
         scTmp.set(999),
         Score(Entity(type: Entities.player), "orig_lane").set(-1),
@@ -54,7 +31,6 @@ class StartGame extends Widget {
         ]),
         If.not(scPlayers.matches(0), then: [
           SetGameround(10),
-          // ScoreMgr.gameStatePlayers.get().setEqual(scPlayers),
           Timeout("to_test", ticks: 20, children: [Say("countdown")]),
           Title.resetTimes(Entity.All()),
           MyCountdown("to_lobby_cd", 5,
@@ -96,12 +72,5 @@ class StartGameFn extends Widget {
   generate(Context context) {
     // TODO: implement generate
     return File("start", child: StartGame());
-  }
-}
-
-class CheckChest extends Widget {
-  @override
-  generate(Context context) {
-    return SetBlock(Blocks.chest, location: Globals.guiLocation);
   }
 }
