@@ -19,22 +19,8 @@ class BuildingGamePack extends Widget {
   @override
   Widget generate(Context context) {
     return Pack(
-      name: 'gui', // name of the subpack
+      name: 'buildinggame', // name of the subpack
       modules: [
-        GuiModule.chest(Globals.guiLocation, pages: [
-          GuiPage([
-            // Placeholder(item: Item(Items.black_stained_glass_pane)),
-            Interactive(Item(Items.green_wool, name: TextComponent("Ready")), slot: Slot.chest(2, 5), actions: [ GetReady(Entity.Player()) ]),
-            // Interactive(Item(Items.red_wool, name: TextComponent("Not Ready")), slot: Slot.chest(2, 6), actions: [ GetReady(Entity.Player(), false) ]),
-          ], 
-          fillEmptySlots: true,
-          placeholder: Item(Items.black_stained_glass_pane)
-          )
-        ]),
-        // RoundTimer(),
-        
-        CalcReadyScores(0),
-
         SwitchToNextRoundChecker(11, [GameStateRename(11, objective: "Think of something to build"), SetGameround(12)]),
         RenameChecker(12),
         SwitchToNextRoundChecker(13, [ScoreMgr.players.getScore().set(0), ScoreMgr.roundTimer.getScore().set(0), SetGameround(20)]),

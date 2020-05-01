@@ -44,7 +44,7 @@ class InitScoreboard extends Widget {
     if(this.display != null) {
       content = List<Widget>();
       content.add(Scoreboard.remove(this.swrapper.name));
-      content.add(Scoreboard(this.swrapper.name, addIntoLoad: false, display: this.display));
+      content.add(Scoreboard(this.swrapper.name, addIntoLoad: true, display: this.display));
     }
     return For.of([
       // Scoreboard(this.swrapper.name, addIntoLoad: true, display: this.display),
@@ -62,9 +62,11 @@ class ScoreMgr {
   static final gameStatePlayers = ScoreWrapper(ScorePlayerMgr.Main, "gs_player_count");
 
   static final termChecker = ScoreWrapper(ScorePlayerMgr.Main, "termcheck");
-  static final termChecker2 = ScoreWrapper(ScorePlayerMgr.Main, "termcheck");
+  static final termChecker2 = ScoreWrapper(ScorePlayerMgr.Main, "termcheck2");
 
   static final roundTimer = ScoreWrapper(ScorePlayerMgr.RoundTimer, "round_timer");
+
+  static final tmp = ScoreWrapper(ScorePlayerMgr.Main, "tmp");
 }
 
 
@@ -73,12 +75,15 @@ class InitScoreboards extends Widget {
   @override
   generate(Context context) {
     return For.of([
+      Scoreboard("undef"),
+      InitScoreboard(ScoreMgr.playerAll),
       InitScoreboard(ScoreMgr.players, display: TextComponent("Players")),
       InitScoreboard(ScoreMgr.playerAll),
       InitScoreboard(ScoreMgr.gameState),
       InitScoreboard(ScoreMgr.gameStatePlayers),
       InitScoreboard(ScoreMgr.termChecker),
       InitScoreboard(ScoreMgr.termChecker2),
+      InitScoreboard(ScoreMgr.tmp),
       InitScoreboard(ScoreMgr.roundTimer, display: TextComponent("Time left")),
     ]);
   }
@@ -93,7 +98,7 @@ class VisibleScore extends Widget{
   @override
   generate(Context context) {
     if(score == null) {
-      return null;
+      return Scoreboard.setdisplay("undef");
     }
     return Scoreboard.setdisplay(score.getScoreboard().name);
   }
