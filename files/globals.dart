@@ -23,6 +23,17 @@ class Globals {
   static Storage storage = Storage("bgstorage", autoNamespace: true);
 
   static Location guiLocation = Location.glob(x: 8, y: 4, z:8);
+
+  static Map<int,int> sheepColors = {
+    1: 0, // white
+    2: 10, // purple
+    3: 10,
+    4: 13, // green
+    5: 13,
+    6: 9, // cyan
+    7: 9, 
+    8: 0, // white
+  };
 }  
 
 class Global_Offsets {

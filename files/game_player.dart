@@ -29,7 +29,8 @@ class GenerateToBuildStation extends Widget {
         noAI: true,
         tags: [GetRoundTag(round), "build_instruction", "id${id}"],
         silent: true,
-        rotation: Rotation.south()
+        rotation: Rotation.south(),
+        nbt: { 'Color' : Globals.sheepColors[GetRoundID(round)]}
       )),
       Data.modify(
         Entity(type: Globals.entityToRename, tags: [GetRoundTag(round), "build_instruction", "id${id}"], limit: 1), 
@@ -86,7 +87,8 @@ class GenerateRenameStation extends Widget {
         noAI: true,
         tags: tags,
         silent: true,
-        rotation: Rotation.north()
+        rotation: Rotation.north(),
+        nbt: { 'Color' : Globals.sheepColors[GetRoundID(round)]}
       ))
     ]);
   }
