@@ -4,6 +4,29 @@ import 'gamechecker.dart';
 import 'utils.dart';
 
 
+class LobbyCountPlayers extends Module {
+  @override
+  Widget generate(Context context) {
+    final players = Entity(type: Entities.player);
+    return If(ScoreMgr.gameState.get().matches(0),
+    then: [
+      File("internal/lobby",
+        child: For.of([
+            ScoreMgr.players.get().setToResult(Command("execute if entity ${players}")),
+        ]),
+        execute: true
+      )
+    ]);
+  }
+
+  @override
+  List<File> registerFiles() {
+    return null;
+  }
+}
+
+
+
 class StartGame extends Widget {
   
   @override

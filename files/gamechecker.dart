@@ -87,12 +87,10 @@ class ReadyChecker extends Module {
   }
 }
 
-// checks if all enteties have been renamed and advances the gameround
-class RenameChecker extends Module {
-
+class RenameCheckerInternal extends Widget {
   final int gameround;
 
-  RenameChecker(this.gameround);
+  RenameCheckerInternal(this.gameround);
 
   @override
   Widget generate(Context context) {
@@ -102,18 +100,37 @@ class RenameChecker extends Module {
     Score sc_termChecker2 = ScoreMgr.termChecker2.get();
     final Entity toCheck = Entity(type: Globals.entityToRename, name: Globals.entityToRenameInitialName, tags: [GetRoundTag(gameround)]);
     final String toCheckStr = toCheck.toString();
-    return For.of([
-      // Timeout("to_test", ticks:50, children: [Say("Gameround ${gameround}, checking stuff")]),
+    return File("internal/renamecheck_$gameround",
+      execute: true,
+      child: For.of([
       sc_termChecker.setToResult(Command("execute if entity ${toCheckStr}")),
       sc_termChecker2.setEqual(sc_players),
       sc_termChecker2.subtractScore(sc_termChecker),
       ScoreMgr.players.getScore().setEqual(sc_termChecker2),
-      If(Condition.and([
-        sc_currentGameRound.matches(gameround),
-        sc_termChecker2.isEqual(sc_players)]),
+      If(
+        sc_termChecker2.isEqual(sc_players),
         then: [
         Log("Everything renamed in gameround $gameround"),
         sc_currentGameRound.add(1)
+      ])
+    ]));
+  }
+
+}
+
+// checks if all enteties have been renamed and advances the gameround
+class RenameChecker extends Module {
+
+  final int gameround;
+
+  RenameChecker(this.gameround);
+
+  @override
+  Widget generate(Context context) {
+    return For.of([
+      If(ScoreMgr.gameState.get().matches(gameround),
+        then: [
+          RenameCheckerInternal(gameround)
       ])
     ]);
   }

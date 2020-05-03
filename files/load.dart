@@ -16,7 +16,7 @@ class LoadFile extends Widget {
       }),
       Tag("player", entity: Entity.All(), value: false),
       // other stuff
-      VisibleScore(null),
+      VisibleScore(ScoreMgr.players),
       StartGameFn(),
       RoundTimer(),
     ]);

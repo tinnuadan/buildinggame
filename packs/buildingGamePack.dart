@@ -1,6 +1,7 @@
 import 'package:objd/core.dart';
 // import all the files:
 import '../files/load.dart';
+import '../files/lobby.dart';
 import '../files/main.dart';
 import '../files/game.dart';
 import '../files/gamechecker.dart';
@@ -19,6 +20,8 @@ class BuildingGamePack extends Widget {
     return Pack(
       name: 'buildinggame', // name of the subpack
       modules: [
+        LobbyCountPlayers(),
+
         SwitchToNextRoundChecker(11, [GameStateRename(11, objective: "Think of something to build"), SetGameround(12)]),
         RenameChecker(12),
         SwitchToNextRoundChecker(13, [ScoreMgr.players.getScore().set(0), ScoreMgr.roundTimer.getScore().set(0), SetGameround(20)]),
