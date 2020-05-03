@@ -193,8 +193,9 @@ class GameStateObjective extends Widget {
         x: Global_Offsets.laneMove.x,
         y: Global_Offsets.laneMove.y,
         z: Global_Offsets.laneMove.z);
+    final laneGameround = gameround < 80 ? gameround : 10;
     return For.of([
-      AssignLanes(gameround),
+      AssignLanes(laneGameround),
       Title.resetTimes(Entity.All()),
       ScoreMgr.roundTimer.getScore().set(60*5),
       VisibleScore(gameround < 80 ? ScoreMgr.roundTimer : null),
