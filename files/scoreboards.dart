@@ -3,7 +3,7 @@ import 'package:objd/core.dart';
 class ScorePlayerMgr {
   static Entity Main = Entity.PlayerName("bgplayer");
   static Entity Players = Entity.PlayerName("Ready");
-  static Entity RoundTimer = Entity.PlayerName("Seconds");
+  static Entity RoundTimer = Entity.PlayerName("Time");
 }
 
 class SBDisplay {
@@ -58,13 +58,15 @@ class ScoreMgr {
   static final players = ScoreWrapper(ScorePlayerMgr.Players, "player_count");
   static final playerAll = ScoreWrapper(ScorePlayerMgr.Main, "player_count_all");
 
+  static final isReady = ScoreWrapper(ScorePlayerMgr.Main, "round_stats");
+
   static final gameState = ScoreWrapper(ScorePlayerMgr.Main, "game_state");
   static final gameStatePlayers = ScoreWrapper(ScorePlayerMgr.Main, "gs_player_count");
 
   static final termChecker = ScoreWrapper(ScorePlayerMgr.Main, "termcheck");
   static final termChecker2 = ScoreWrapper(ScorePlayerMgr.Main, "termcheck2");
 
-  static final roundTimer = ScoreWrapper(ScorePlayerMgr.RoundTimer, "round_timer");
+  static final roundTimer = ScoreWrapper(ScorePlayerMgr.RoundTimer, "round_stats");
 
   static final tmp = ScoreWrapper(ScorePlayerMgr.Main, "tmp");
 }
@@ -84,7 +86,7 @@ class InitScoreboards extends Widget {
       InitScoreboard(ScoreMgr.termChecker),
       InitScoreboard(ScoreMgr.termChecker2),
       InitScoreboard(ScoreMgr.tmp),
-      InitScoreboard(ScoreMgr.roundTimer, display: TextComponent("Time left")),
+      InitScoreboard(ScoreMgr.roundTimer, display: TextComponent("Round")),
     ]);
   }
 }

@@ -24,33 +24,40 @@ class BuildingGamePack extends Widget {
 
         SwitchToNextRoundChecker(11, [GameStateRename(11, objective: "Think of something to build"), SetGameround(12)]),
         RenameChecker(12),
+        AssignIsReadyScore(12),
         SwitchToNextRoundChecker(13, [ScoreMgr.players.getScore().set(0), ScoreMgr.roundTimer.getScore().set(0), SetGameround(20)]),
 
         SwitchToNextRoundChecker(20, [GameStateObjective(20), SetGameround(21)]),
         CalcReadyScores(21),
         ReadyChecker(21),
+        AssignIsReadyScore(21),
         SwitchToNextRoundChecker(22, [ScoreMgr.players.getScore().set(0),  SetGameround(30)]),
 
         SwitchToNextRoundChecker(30, [GameStateRename(31), SetGameround(32)]),
         RenameChecker(32),
+        AssignIsReadyScore(32),
         SwitchToNextRoundChecker(33, [ScoreMgr.players.getScore().set(0), ScoreMgr.roundTimer.getScore().set(0), SetGameround(40)]),
 
         SwitchToNextRoundChecker(40, [GameStateObjective(40), SetGameround(41)]),
         CalcReadyScores(41),
         ReadyChecker(41),
+        AssignIsReadyScore(41),
         SwitchToNextRoundChecker(42, [ScoreMgr.players.getScore().set(0), SetGameround(50)]),
 
         SwitchToNextRoundChecker(50, [GameStateRename(51), SetGameround(52)]),
         RenameChecker(52),
+        AssignIsReadyScore(52),
         SwitchToNextRoundChecker(53, [ScoreMgr.players.getScore().set(0), ScoreMgr.roundTimer.getScore().set(0), SetGameround(60)]),
 
         SwitchToNextRoundChecker(60, [GameStateObjective(60), SetGameround(61)]),
         CalcReadyScores(61),
         ReadyChecker(61),
+        AssignIsReadyScore(61),
         SwitchToNextRoundChecker(62, [ScoreMgr.players.getScore().set(0),  SetGameround(70)]),
 
         SwitchToNextRoundChecker(70, [GameStateRename(71), SetGameround(72)]),
         RenameChecker(72),
+        AssignIsReadyScore(72),
         SwitchToNextRoundChecker(73, [ScoreMgr.players.getScore().set(0), ScoreMgr.roundTimer.getScore().set(0), SetGameround(80)]),
 
         SwitchToNextRoundChecker(80, [GameStateObjective(80, objective: "Your term evolved into"), SetGameround(81)]),

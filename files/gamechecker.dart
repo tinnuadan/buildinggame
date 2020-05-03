@@ -58,6 +58,51 @@ class CalcReadyScores extends Module {
   }
 }
 
+
+class AssignIsReadyScore extends Module {
+  int gameround;
+  AssignIsReadyScore(this.gameround);
+  @override
+  generate(Context context) {
+    final roundID = GetRoundID(gameround);
+    if(roundID%2 == 0) {
+    final tag = GetRoundReadyTag(gameround);
+      final isReady = Entity.Selected(tags: [GetRoundReadyTag(gameround)]).toString();
+      return  If(ScoreMgr.gameState.get().matches(gameround),
+        then: [
+        For.of([
+            Entity(tags: ["player"]).forEach((Entity e, List<Widget> l) {
+              return Execute(
+                as:e,
+                children: [
+                  Score(Entity.Selected(), ScoreMgr.isReady.name).setToResult(Command("execute if entity ${isReady}"), useSuccess: true)
+                ]           
+              );
+            })
+          ])
+      ]);
+    } else {
+      final tag = GetRoundTag(gameround);
+      final isReady = Entity(type: Globals.entityToRename, name: "!${Globals.entityToRenameInitialName}", tags: [tag], limit: 1, distance: Range(0,3)).toString();
+      return  If(ScoreMgr.gameState.get().matches(gameround),
+        then: [
+          Entity(type: Entities.player).asat(children: [
+            If(Score(Entity.Selected(), ScoreMgr.isReady.name).matches(0), then: [
+              Score(Entity.Selected(), ScoreMgr.isReady.name).setToResult(Command("execute if entity ${isReady}"), useSuccess: true)
+            ])
+          ])
+      ]);
+    }
+  }
+
+  @override
+  List<File> registerFiles() {
+    // TODO: implement registerFiles
+    return null;
+  }
+}
+
+
 class ReadyChecker extends Module {
   final int gameround;
 

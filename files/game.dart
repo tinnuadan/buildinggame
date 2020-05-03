@@ -154,10 +154,12 @@ class GameStateRename extends Widget {
         y: Global_Offsets.laneMove.y,
         z: Global_Offsets.laneMove.z);
     return For.of([
+      Score(Entity(type: Entities.player, tags: ["player"]), ScoreMgr.isReady.name).set(0),
       AssignLanes(this.gameround),
       HideObjectives(),
       Title.resetTimes(Entity.All()),
-      VisibleScore(ScoreMgr.players),
+      ScoreMgr.roundTimer.getScore().set(90),
+      VisibleScore(ScoreMgr.roundTimer),
       Execute(
         children: [ForEach(ScoreMgr.gameStatePlayers.get(),
         translate: tp,
@@ -195,6 +197,7 @@ class GameStateObjective extends Widget {
         z: Global_Offsets.laneMove.z);
     final laneGameround = gameround < 80 ? gameround : 10;
     return For.of([
+      Score(Entity(type: Entities.player, tags: ["player"]), ScoreMgr.isReady.name).set(0),
       AssignLanes(laneGameround),
       Title.resetTimes(Entity.All()),
       ScoreMgr.roundTimer.getScore().set(60*5),
