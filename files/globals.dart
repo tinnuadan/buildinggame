@@ -10,6 +10,9 @@ class Point {
   Point add(Point p) {
     return Point(x+p.x, y+p.y, z+p.z);
   }
+  String toString() {
+    return "($x,$y,$z)";
+  }
 }
 
 class Globals {

@@ -48,7 +48,7 @@ class StartGame extends Widget {
           Condition.score(scTmp.matches(0)),
           translate: Location.rel(x:0, y:0, z:0),
           then: [            
-            Score(Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)], limit: 1), "orig_lane").setEqual(scPlayers),
+            Score(Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)], limit: 1).sort(Sort.random), "orig_lane").setEqual(scPlayers),
             scPlayers.add(1),
             scTmp.setToResult(Command("execute if entity ${notProcessed}")),
         ]),
