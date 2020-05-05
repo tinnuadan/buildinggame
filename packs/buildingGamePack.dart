@@ -62,6 +62,8 @@ class BuildingGamePack extends Widget {
 
         SwitchToNextRoundChecker(80, [GameStateObjective(80, objective: "Your term evolved into"), SetGameround(81)]),
         SwitchToNextRoundChecker(81, [ShowAllObjectives(), SetGameround(82)]),
+
+        SwitchToNextRoundChecker(82, [RemoveWalls(), ActivateTPCmdBlocks()]),
       ],
       main: File(
           // definining a file that runs every tick

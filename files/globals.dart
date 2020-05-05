@@ -42,6 +42,11 @@ class Global_Offsets {
   static Point _playerRenameBase = Point(32.0/2.0, 2, 12);
   static Point _playerObjectiveBase = Point(32.0/2.0, 2, 18);
 
+  static Point wallStart = Point(11,3,15);//Point(1,3,47);
+  static Point wallLength = Point(9,3,0);
+
+  static List<Point> nbTping = [ Point(15,0,121), Point(16,0,121) ];
+
   static Map<int, Point> playerBases = Map<int, Point>();
   static Point playerMove = Point(0, 0, 32);
   static Point laneMove = Point(32, 0, 0);

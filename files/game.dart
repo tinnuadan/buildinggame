@@ -67,6 +67,89 @@ class ShowAllObjectives extends Widget {
 }
 
 
+class RemoveWalls extends Widget {
+  @override
+  generate(Context context) {
+    // final rndID = GetRoundID(round);
+
+    final wallStart = 
+     Location.glob(
+      x: Globals.plotStart.x + Global_Offsets.wallStart.x,
+      y: Globals.plotStart.y + Global_Offsets.wallStart.y,
+      z: Globals.plotStart.z + Global_Offsets.wallStart.z,
+    );
+    final wallLength = Global_Offsets.wallLength;
+    final laneOffset = Global_Offsets.laneMove;
+    final plotOffset = Global_Offsets.playerMove;
+    return File("internal/removewalls",
+      execute: true,
+      child: For(from: 0, to: Globals.maxPlayers-1,
+        create: (laneIDX) {
+          final curLaneOffset = laneOffset.multiply(laneIDX.toDouble());
+          return For(from: 0, to: 3, create: (i) {
+            final curRoundOffset = plotOffset.multiply(i.toDouble());
+            final l1 = Location.glob(
+              x: wallStart.x + curLaneOffset.x + curRoundOffset.x, 
+              y: wallStart.y + curLaneOffset.y + curRoundOffset.y, 
+              z: wallStart.z + curLaneOffset.z + curRoundOffset.z
+            );           
+            final l2 = Location.glob(
+              x: l1.x + wallLength.x, 
+              y: l1.y + wallLength.y, 
+              z: l1.z + wallLength.z
+            );
+            return Fill(
+              Blocks.air,
+              area: Area.fromLocations(l1, l2)
+            );
+          });
+        }));
+  }
+}
+
+
+class ActivateTPCmdBlocks extends Widget {
+  @override
+  generate(Context context) {
+    final startOffset = Global_Offsets.playerBases[2];
+    final globalBase = Location.glob(
+      x: Globals.plotStart.x + startOffset.x,
+      y: Globals.plotStart.y + startOffset.y,
+      z: Globals.plotStart.z + startOffset.z,
+    );
+    final plotStart = Globals.plotStart;
+    final tpOffsets = Global_Offsets.nbTping;
+    final laneOffset = Global_Offsets.laneMove;
+    print(plotStart);
+    print(tpOffsets);
+    return File("internal/tpstations",
+      execute: true,
+      child: For(from: 0, to: Globals.maxPlayers-1,
+        create: (laneIDX) {
+          final curLaneOffset = laneOffset.multiply(laneIDX.toDouble());
+          final l1 = Location.glob(
+              x: plotStart.x + curLaneOffset.x + tpOffsets[0].x, 
+              y: plotStart.y + curLaneOffset.y + tpOffsets[0].y, 
+              z: plotStart.z + curLaneOffset.z + tpOffsets[0].z
+            );
+          final l2 = Location.glob(
+              x: plotStart.x + curLaneOffset.x + tpOffsets[1].x, 
+              y: plotStart.y + curLaneOffset.y + tpOffsets[1].y, 
+              z: plotStart.z + curLaneOffset.z + tpOffsets[1].z
+            );
+          final laneBase = Location.glob(
+              x: globalBase.x + curLaneOffset.x, 
+              y: globalBase.y + curLaneOffset.y, 
+              z: globalBase.z + curLaneOffset.z            
+          );
+          return For.of([
+            SetBlock(Blocks.command_block, location: l1, nbt: {"Command":"tp @p ${laneBase.toString()}"}),
+            SetBlock(Blocks.command_block, location: l2, nbt: {"Command":"tp @p ${globalBase.toString()}"}), 
+          ]);
+        }));
+  }
+}
+
 class GenerateRenameStations extends Widget {
   int round;
 
