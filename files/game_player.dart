@@ -19,26 +19,29 @@ class GenerateToBuildStation extends Widget {
     );
     entA.xPrecise = true;
     List<String> sourceTags = [GetRoundTag(round-10), "id${id}", "torename"];
+    List<String> destTags =  [GetRoundTag(round), "build_instruction", "id${id}"];
     return For.of([
-      SummonWorkaround(Summon(
-        Globals.entityToRename,
-        location: entA,
-        name: TextComponent(Globals.entityToRenameInitialName, color: Color.Aqua),
-        invulnerable: true,
-        gravity: false,
-        noAI: true,
-        tags: [GetRoundTag(round), "build_instruction", "id${id}"],
-        silent: true,
-        rotation: Rotation.south(),
-        nbt: { 'Color' : Globals.sheepColors[GetRoundID(round)]}
-      )),
-      Data.modify(
-        Entity(type: Globals.entityToRename, tags: [GetRoundTag(round), "build_instruction", "id${id}"], limit: 1), 
-        path: "CustomName", 
-        modify: DataModify.set(
-          Entity(type: Globals.entityToRename, tags: sourceTags, limit: 1),
-          fromPath: "CustomName"
-        ))
+      If.not(Entity(tags: destTags), then: [
+        SummonWorkaround(Summon(
+          Globals.entityToRename,
+          location: entA,
+          name: TextComponent(Globals.entityToRenameInitialName, color: Color.Aqua),
+          invulnerable: true,
+          gravity: false,
+          noAI: true,
+          tags: destTags,
+          silent: true,
+          rotation: Rotation.south(),
+          nbt: { 'Color' : Globals.sheepColors[GetRoundID(round)]}
+        )),
+        Data.modify(
+          Entity(type: Globals.entityToRename, tags: destTags, limit: 1), 
+          path: "CustomName", 
+          modify: DataModify.set(
+            Entity(type: Globals.entityToRename, tags: sourceTags, limit: 1),
+            fromPath: "CustomName"
+          ))
+      ])
     ]);
   }
 }
@@ -78,18 +81,20 @@ class GenerateRenameStation extends Widget {
       SetBlock(Blocks.anvil, location: anvil),
       SetBlock(Blocks.gray_concrete, location: quartzA),
       SetBlock(Blocks.gray_concrete, location: quartzB),
-      SummonWorkaround(Summon(
-        Globals.entityToRename,
-        location: entityLocation,
-        name: TextComponent(Globals.entityToRenameInitialName, color: Color.Aqua),
-        invulnerable: true,
-        gravity: false,
-        noAI: true,
-        tags: tags,
-        silent: true,
-        rotation: Rotation.north(),
-        nbt: { 'Color' : Globals.sheepColors[GetRoundID(round)]}
-      ))
+      If.not(Entity(tags: tags), then: [
+        SummonWorkaround(Summon(
+          Globals.entityToRename,
+          location: entityLocation,
+          name: TextComponent(Globals.entityToRenameInitialName, color: Color.Aqua),
+          invulnerable: true,
+          gravity: false,
+          noAI: true,
+          tags: tags,
+          silent: true,
+          rotation: Rotation.north(),
+          nbt: { 'Color' : Globals.sheepColors[GetRoundID(round)]}
+        ))
+      ])
     ]);
   }
 }
