@@ -40,26 +40,34 @@ class StartGame extends Widget {
       ]),
       then: [
         Say("Starting game"),
-        scPlayers.set(0),
-        scTmp.set(999),
-        Score(Entity(type: Entities.player), "orig_lane").set(-1),
-        Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)]).addTag("player"),
-        Do.Until(
-          Condition.score(scTmp.matches(0)),
-          translate: Location.rel(x:0, y:0, z:0),
-          then: [            
-            Score(Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)], limit: 1).sort(Sort.random), "orig_lane").setEqual(scPlayers),
-            scPlayers.add(1),
-            scTmp.setToResult(Command("execute if entity ${notProcessed}")),
-        ]),
-        If.not(scPlayers.matches(0), then: [
-          SetGameround(10),
-          Timeout("to_test", ticks: 20, children: [Say("countdown")]),
-          Title.resetTimes(Entity.All()),
-          MyCountdown("to_lobby_cd", 5,
-            message: "Starting Game",
-            then: SetGameround(11))
-        ])
+        If(
+          ScoreMgr.players.get().matchesRange(Range(7, 15)), then: [
+            scPlayers.set(0),
+            scTmp.set(999),
+            Score(Entity(type: Entities.player), ScoreMgr.isReady.name).set(0),
+            VisibleScore(ScoreMgr.isReady),
+            Score(Entity(type: Entities.player), "orig_lane").set(-1),
+            Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)]).addTag("player"),
+            Do.Until(
+              Condition.score(scTmp.matches(0)),
+              translate: Location.rel(x:0, y:0, z:0),
+              then: [            
+                Score(Entity(type: Entities.player, scores: [Score(Entity.All(), "orig_lane").matches(-1)], limit: 1).sort(Sort.random), "orig_lane").setEqual(scPlayers),
+                scPlayers.add(1),
+                scTmp.setToResult(Command("execute if entity ${notProcessed}")),
+            ]),
+            If.not(scPlayers.matches(0), then: [
+              SetGameround(10),
+              Timeout("to_test", ticks: 20, children: [Say("countdown")]),
+              Title.resetTimes(Entity.All()),
+              MyCountdown("to_lobby_cd", 5,
+                message: "Starting Game",
+                then: SetGameround(11))
+            ])
+          ], orElse: [
+            Title.resetTimes(Entity.All()),
+            Title(Entity.All(), show: [ TextComponent("7 to 15 players needed")])
+          ])
       ])
     ]);
   }

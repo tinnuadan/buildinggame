@@ -17,8 +17,9 @@ class SBDisplay {
 class ScoreWrapper {
   Entity player;
   String name;
+  String display;
 
-  ScoreWrapper(this.player, this.name);
+  ScoreWrapper(this.player, this.name, {this.display = 'sidebar'});
 
   Score getScore() {
     return Score(player, name);
@@ -58,7 +59,7 @@ class ScoreMgr {
   static final players = ScoreWrapper(ScorePlayerMgr.Players, "player_count");
   static final playerAll = ScoreWrapper(ScorePlayerMgr.Main, "player_count_all");
 
-  static final isReady = ScoreWrapper(ScorePlayerMgr.Main, "round_stats");
+  static final isReady = ScoreWrapper(ScorePlayerMgr.Main, "is_ready", display: "list");
 
   static final gameState = ScoreWrapper(ScorePlayerMgr.Main, "game_state");
   static final gameStatePlayers = ScoreWrapper(ScorePlayerMgr.Main, "gs_player_count");
@@ -102,6 +103,6 @@ class VisibleScore extends Widget{
     if(score == null) {
       return Scoreboard.setdisplay("undef");
     }
-    return Scoreboard.setdisplay(score.getScoreboard().name);
+    return Scoreboard.setdisplay(score.getScoreboard().name, display: score.display);
   }
 }
